@@ -182,7 +182,7 @@ document.getElementById("year").textContent=new Date().getFullYear();products.so
  const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;let current=0,timer=null;
  function show(index){current=(index+slides.length)%slides.length;track.style.transform="translateX(-"+(current*100)+"%)";slides.forEach((s,i)=>s.classList.toggle("active",i===current));dots.forEach((d,i)=>d.classList.toggle("active",i===current));const s=slides[current];title.textContent=s.dataset.title;description.textContent=s.dataset.description;kind.textContent=s.dataset.kind;}
  function stop(){if(timer){clearInterval(timer);timer=null;}}
- function start(){stop();if(!reduced&&!document.hidden)timer=setInterval(()=>show(current+1),4800);}
+ function start(){stop();if(!reduced&&!document.hidden)timer=setInterval(()=>show(current+1),4000);}
  document.getElementById("showcasePrev").addEventListener("click",()=>{show(current-1);start();});
  document.getElementById("showcaseNext").addEventListener("click",()=>{show(current+1);start();});
  dots.forEach((d,i)=>d.addEventListener("click",()=>{show(i);start();}));
