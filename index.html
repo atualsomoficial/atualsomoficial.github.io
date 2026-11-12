@@ -221,7 +221,7 @@ document.getElementById("year").textContent=new Date().getFullYear();products.so
  root.addEventListener("focusin",stop);root.addEventListener("focusout",start);
  document.addEventListener("visibilitychange",()=>document.hidden?stop():start());
  root.querySelectorAll(".showcase-product").forEach(img=>{
-  img.addEventListener("pointermove",e=>{if(e.pointerType!=="mouse")return;const r=img.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;const ry=(x-.5)*22,rx=(.5-y)*18;img.style.transform="translate3d(0,-10px,75px) rotateX("+rx+"deg) rotateY("+ry+"deg) scale(1.08)";});
+  img.addEventListener("pointermove",e=>{if(e.pointerType!=="mouse")return;const r=img.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;const ry=(x-.5)*42,rx=(.5-y)*34;img.style.transform="translate3d(0,-22px,115px) rotateX("+rx+"deg) rotateY("+ry+"deg) scale(1.16)";});
   img.addEventListener("pointerleave",()=>{img.style.transform="translate3d(0,0,45px) rotateX(0) rotateY(0) scale(1)";});
  });
  show(0);start();
