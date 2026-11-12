@@ -49,6 +49,38 @@ footer{border-top:1px solid var(--line);background:#050d18;padding:40px 0 25px}.
 @media(max-width:1050px){.shop-layout{grid-template-columns:210px minmax(0,1fr);gap:17px}.catalog .products{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:650px){.catalog .section-head{gap:18px}.shop-layout{grid-template-columns:1fr;gap:17px}.category-sidebar{position:static;padding:14px 12px}.sidebar-heading{padding-bottom:10px}.sidebar-heading strong{font-size:17px}.category-sidebar{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:7px;scrollbar-width:thin}.sidebar-heading{display:none}.side-category{flex:0 0 auto;width:auto;white-space:nowrap;padding:10px 12px;margin:0;font-size:11px}.side-category span{width:auto}.sidebar-note{display:none}.catalog .products{grid-template-columns:repeat(2,minmax(0,1fr))}.results-top{margin-top:3px}}
 
+
+/* Carrossel de destaques com efeito 3D */
+.hero{padding-top:58px;padding-bottom:58px}
+.hero-grid{grid-template-columns:1fr 1fr;gap:34px}
+.hero-copy h1{max-width:590px;font-size:clamp(43px,5.4vw,66px);line-height:1.02;letter-spacing:-3.2px}
+.hero-copy .gradient{display:inline-block}
+.hero-visual.showcase{height:490px;overflow:hidden;display:block;perspective:1100px;isolation:isolate}
+.showcase-glow{position:absolute;inset:8% 5%;border-radius:50%;background:radial-gradient(ellipse,rgba(16,139,255,.22),rgba(14,72,133,.07) 48%,transparent 72%);filter:blur(12px);pointer-events:none}
+.showcase-track{position:absolute;inset:0;display:flex;transition:transform .8s cubic-bezier(.22,.75,.2,1);will-change:transform}
+.showcase-slide{flex:0 0 100%;width:100%;height:100%;display:grid;place-items:center;padding:12px 12px 78px}
+.showcase-card{position:relative;width:min(100%,490px);height:365px;display:grid;place-items:center;border:1px solid rgba(93,183,255,.2);border-radius:28px;background:linear-gradient(145deg,rgba(18,47,77,.68),rgba(6,20,37,.56));box-shadow:inset 0 1px rgba(255,255,255,.06),0 25px 70px rgba(0,0,0,.22);transform-style:preserve-3d;transition:transform .16s ease-out,box-shadow .25s,border-color .25s;overflow:hidden}
+.showcase-card:before{content:"";position:absolute;inset:0;background:linear-gradient(125deg,rgba(255,255,255,.09),transparent 35%,transparent 70%,rgba(31,154,255,.09));pointer-events:none}
+.showcase-card:hover{border-color:rgba(69,190,255,.55);box-shadow:0 28px 75px rgba(0,111,220,.2),inset 0 1px rgba(255,255,255,.1)}
+.showcase-orbit{position:absolute;width:285px;height:285px;border-radius:50%;border:1px solid rgba(79,183,255,.18);box-shadow:0 0 0 24px rgba(43,143,228,.025),0 0 0 52px rgba(43,143,228,.02),inset 0 0 55px rgba(24,139,255,.08);background:radial-gradient(circle,rgba(27,139,255,.16),transparent 68%)}
+.showcase-image{position:relative;z-index:1;width:88%;height:88%;object-fit:contain;filter:drop-shadow(0 24px 24px rgba(0,0,0,.48));transform:translateZ(55px);mix-blend-mode:screen}
+.showcase-emoji{position:relative;z-index:1;font-size:clamp(115px,15vw,185px);line-height:1;filter:drop-shadow(0 22px 25px rgba(0,0,0,.42));transform:translateZ(65px);text-shadow:0 0 45px rgba(48,169,255,.18)}
+.showcase-chip{position:absolute;top:19px;left:19px;z-index:2;padding:8px 11px;border:1px solid rgba(84,185,255,.28);border-radius:30px;background:rgba(4,20,37,.7);color:#9be7ff;font-size:9px;font-weight:700;letter-spacing:1.2px;backdrop-filter:blur(8px);transform:translateZ(35px)}
+.showcase-caption{position:absolute;left:15px;right:15px;bottom:18px;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 15px;border:1px solid rgba(91,174,238,.18);border-radius:14px;background:rgba(5,19,35,.88);backdrop-filter:blur(15px)}
+.showcase-caption>div:first-child{min-width:0}
+.showcase-caption span{display:block;color:var(--cyan);font-size:8px;font-weight:700;letter-spacing:1.5px;margin-bottom:4px}
+.showcase-caption strong{display:block;font:600 16px "Space Grotesk";color:#f2f8ff}
+.showcase-caption small{display:block;color:#8fa9c3;font-size:10px;margin-top:3px}
+.showcase-controls{display:flex;gap:6px;flex-shrink:0}
+.showcase-controls button{width:32px;height:32px;border:1px solid rgba(94,177,240,.25);border-radius:9px;background:rgba(19,57,91,.7);color:#dff5ff;font-size:23px;line-height:1;cursor:pointer;transition:.2s}
+.showcase-controls button:hover{background:#087de2;border-color:#3abaff}
+.showcase-pagination{position:absolute;right:22px;top:24px;z-index:4;display:flex;gap:6px}
+.showcase-pagination button{width:6px;height:6px;padding:0;border:0;border-radius:8px;background:rgba(163,207,243,.35);cursor:pointer;transition:width .25s,background .25s}
+.showcase-pagination button.active{width:22px;background:var(--cyan)}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr 1fr;gap:18px}.hero-visual.showcase{height:420px}.showcase-card{height:310px}.showcase-orbit{width:230px;height:230px}.showcase-caption{left:8px;right:8px;bottom:12px;padding:11px}.showcase-caption strong{font-size:14px}}
+@media(max-width:650px){.hero{padding:38px 0 35px}.hero-grid{grid-template-columns:1fr;gap:8px}.hero-copy{grid-row:2}.hero-copy h1{font-size:44px;letter-spacing:-2.4px;margin:14px 0}.hero-copy p{font-size:12px}.hero-visual.showcase{grid-row:1;height:350px}.showcase-slide{padding:8px 8px 72px}.showcase-card{height:260px;border-radius:22px}.showcase-orbit{width:190px;height:190px}.showcase-emoji{font-size:120px}.showcase-image{width:90%;height:90%}.showcase-caption{bottom:8px;left:4px;right:4px;padding:10px 11px}.showcase-caption strong{font-size:13px}.showcase-caption small{font-size:9px}.showcase-pagination{top:15px;right:17px}}
+@media(prefers-reduced-motion:reduce){.showcase-track,.showcase-card,.showcase-pagination button{transition:none}}
+
 </style>
 </head>
 <body>
@@ -62,8 +94,18 @@ footer{border-top:1px solid var(--line);background:#050d18;padding:40px 0 25px}.
 </header>
 <main>
 <section class="hero" id="inicio"><div class="wrap hero-grid">
- <div><span class="eyebrow">O seu som em outro nível</span><h1>Microfone<br><span class="gradient">Kadosh K-382M</span></h1><p>Sistema sem fio duplo para dar liberdade às suas apresentações. Consulte disponibilidade e condições.</p><div class="hero-buttons"><a class="primary" href="#catalogo">Explorar produtos <span>↗</span></a><a class="secondary" href="#categorias">Ver categorias</a></div></div>
- <div class="hero-visual"><div class="orb"></div><img class="hero-product" src="https://http2.mlstatic.com/D_NQ_NP_2X_781750-MLB117863796743_092026-F-microfone-kadosh-k382m-sem-fio-duplo-profissional.webp" alt="Microfone Kadosh K-382M sem fio duplo" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div style="display:none;font-size:150px;filter:drop-shadow(0 15px 30px #0008)">🎤</div><div class="floating-tag"><b>DESTAQUE ATUAL SOM</b>Kadosh K-382M • Sistema sem fio duplo</div></div>
+ <div class="hero-copy"><span class="eyebrow">O seu som em outro nível</span><h1>Equipamentos<br><span class="gradient">que fazem o som acontecer.</span></h1><p>Explore uma seleção de equipamentos de áudio e instrumentos musicais para palco, igreja, estúdio e muito mais.</p><div class="hero-buttons"><a class="primary" href="#catalogo">Explorar produtos <span>↗</span></a><a class="secondary" href="#categorias">Ver categorias</a></div></div>
+ <div class="hero-visual showcase" id="showcase" aria-label="Produtos em destaque">
+  <div class="showcase-glow"></div><div class="showcase-track" id="showcaseTrack">
+   <article class="showcase-slide active" data-title="Kadosh K-382M" data-description="Sistema sem fio duplo • Microfones profissionais" data-kind="DESTAQUE ATUAL SOM"><div class="showcase-card"><div class="showcase-orbit"></div><img class="showcase-image mic-image" src="https://http2.mlstatic.com/D_NQ_NP_2X_781750-MLB117863796743_092026-F-microfone-kadosh-k382m-sem-fio-duplo-profissional.webp" alt="Microfone Kadosh K-382M" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><span class="showcase-emoji" style="display:none">🎤</span><span class="showcase-chip">SEM FIO • UHF</span></div></article>
+   <article class="showcase-slide" data-title="Caixas profissionais" data-description="Potência e clareza para sua sonorização" data-kind="SISTEMAS DE SOM"><div class="showcase-card"><div class="showcase-orbit"></div><span class="showcase-emoji">🔊</span><span class="showcase-chip">ÁUDIO PROFISSIONAL</span></div></article>
+   <article class="showcase-slide" data-title="Mesas de som" data-description="Controle completo para cada mixagem" data-kind="MIXAGEM"><div class="showcase-card"><div class="showcase-orbit"></div><span class="showcase-emoji">🎚️</span><span class="showcase-chip">CONTROLE TOTAL</span></div></article>
+   <article class="showcase-slide" data-title="Teclados musicais" data-description="Timbres e possibilidades para sua música" data-kind="INSTRUMENTOS"><div class="showcase-card"><div class="showcase-orbit"></div><span class="showcase-emoji">🎹</span><span class="showcase-chip">UNIVERSO MUSICAL</span></div></article>
+   <article class="showcase-slide" data-title="Guitarras e violões" data-description="Sua expressão musical começa aqui" data-kind="CORDAS"><div class="showcase-card"><div class="showcase-orbit"></div><span class="showcase-emoji">🎸</span><span class="showcase-chip">INSTRUMENTOS DE CORDA</span></div></article>
+  </div>
+  <div class="showcase-caption"><div><span id="showcaseKind">DESTAQUE ATUAL SOM</span><strong id="showcaseTitle">Kadosh K-382M</strong><small id="showcaseDescription">Sistema sem fio duplo • Microfones profissionais</small></div><div class="showcase-controls"><button type="button" id="showcasePrev" aria-label="Produto anterior">‹</button><button type="button" id="showcaseNext" aria-label="Próximo produto">›</button></div></div>
+  <div class="showcase-pagination" id="showcasePagination" aria-label="Selecionar produto em destaque"><button class="active" aria-label="Produto 1"></button><button aria-label="Produto 2"></button><button aria-label="Produto 3"></button><button aria-label="Produto 4"></button><button aria-label="Produto 5"></button></div>
+ </div>
 </div></section>
 <div class="trust"><div class="wrap trust-grid"><div class="trust-item"><span class="trust-icon">◈</span><span><strong>Áudio profissional</strong>Equipamentos para sua estrutura</span></div><div class="trust-item"><span class="trust-icon">♫</span><span><strong>Universo musical</strong>Instrumentos para cada estilo</span></div><div class="trust-item"><span class="trust-icon">✧</span><span><strong>Atendimento próximo</strong>Ajuda para escolher melhor</span></div></div></div>
 <section class="catalog" id="catalogo"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Explore o catálogo</span><h2>Encontre seu equipamento</h2><p class="catalog-subtitle">Escolha uma categoria ou descubra produtos variados.</p></div><label class="search"><span>⌕</span><input id="searchInput" type="search" placeholder="Buscar instrumento ou equipamento..." aria-label="Buscar produtos"></label></div>
@@ -116,5 +158,51 @@ const overlay=document.getElementById("overlay"),panel=document.getElementById("
 document.getElementById("cartOpen").addEventListener("click",openCart);document.getElementById("cartClose").addEventListener("click",closeCart);overlay.addEventListener("click",closeCart);
 document.getElementById("menuToggle").addEventListener("click",()=>document.getElementById("navLinks").classList.toggle("open"));document.querySelectorAll("#navLinks a").forEach(a=>a.addEventListener("click",()=>document.getElementById("navLinks").classList.remove("open")));
 document.getElementById("year").textContent=new Date().getFullYear();products.sort(()=>Math.random()-.5);renderProducts();renderCart();
+
+/* Destaques: autoplay, navegação e inclinação 3D pelo cursor */
+(function(){
+ const root=document.getElementById("showcase");
+ if(!root)return;
+ const track=document.getElementById("showcaseTrack");
+ const slides=[...track.querySelectorAll(".showcase-slide")];
+ const dots=[...document.querySelectorAll("#showcasePagination button")];
+ const title=document.getElementById("showcaseTitle");
+ const description=document.getElementById("showcaseDescription");
+ const kind=document.getElementById("showcaseKind");
+ const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+ let current=0,timer=null;
+ function show(index){
+  current=(index+slides.length)%slides.length;
+  track.style.transform="translateX(-"+(current*100)+"%)";
+  slides.forEach((slide,i)=>slide.classList.toggle("active",i===current));
+  dots.forEach((dot,i)=>dot.classList.toggle("active",i===current));
+  const slide=slides[current];
+  title.textContent=slide.dataset.title;
+  description.textContent=slide.dataset.description;
+  kind.textContent=slide.dataset.kind;
+ }
+ function stop(){if(timer){clearInterval(timer);timer=null;}}
+ function start(){stop();if(!reduced&&!document.hidden)timer=setInterval(()=>show(current+1),4800);}
+ document.getElementById("showcasePrev").addEventListener("click",()=>{show(current-1);start();});
+ document.getElementById("showcaseNext").addEventListener("click",()=>{show(current+1);start();});
+ dots.forEach((dot,i)=>dot.addEventListener("click",()=>{show(i);start();}));
+ root.addEventListener("mouseenter",stop);
+ root.addEventListener("mouseleave",start);
+ root.addEventListener("focusin",stop);
+ root.addEventListener("focusout",start);
+ document.addEventListener("visibilitychange",()=>document.hidden?stop():start());
+ const card=root.querySelectorAll(".showcase-card");
+ card.forEach(el=>{
+  el.addEventListener("pointermove",e=>{
+   if(e.pointerType!=="mouse")return;
+   const r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+   const ry=(x-.5)*17,rx=(.5-y)*13;
+   el.style.transform="rotateX("+rx+"deg) rotateY("+ry+"deg) scale3d(1.025,1.025,1.025)";
+  });
+  el.addEventListener("pointerleave",()=>{el.style.transform="rotateX(0deg) rotateY(0deg) scale3d(1,1,1)";});
+ });
+ show(0);start();
+})();
+
 </script>
 </body></html>
