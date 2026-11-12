@@ -24,6 +24,31 @@ footer{border-top:1px solid var(--line);background:#050d18;padding:40px 0 25px}.
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:40;opacity:0;pointer-events:none;transition:.2s}.overlay.show{opacity:1;pointer-events:auto}.cart-panel{position:fixed;right:0;top:0;height:100%;width:min(420px,100%);background:#091a2d;border-left:1px solid var(--line);z-index:41;transform:translateX(105%);transition:.25s;padding:25px;display:flex;flex-direction:column}.cart-panel.show{transform:translateX(0)}.cart-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:18px}.cart-head h2{font:700 22px "Space Grotesk";margin:0}.close{border:0;background:#132a43;color:white;border-radius:9px;padding:9px 12px;cursor:pointer}.cart-items{overflow:auto;flex:1;padding:15px 0}.cart-row{display:flex;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid var(--line);font-size:13px}.cart-row small{display:block;color:var(--muted);margin-top:5px}.remove{background:none;border:0;color:#7ecbff;cursor:pointer;font-size:11px}.cart-note{font-size:11px;color:var(--muted);line-height:1.6;margin:12px 0}.cart-footer .primary{width:100%}.mobile-only{display:none}
 @media(max-width:900px){.hero-grid{gap:20px}.hero-visual{height:340px}.hero-product{height:390px}.products{grid-template-columns:repeat(3,1fr)}.categories{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:650px){.wrap{width:min(100% - 28px,1180px)}.topline{font-size:9px}.nav{height:65px;gap:12px}.brand{font-size:20px}.links{display:none;position:absolute;top:65px;left:0;right:0;background:#08182a;padding:18px 22px;flex-direction:column;gap:17px;border-bottom:1px solid var(--line)}.links.open{display:flex}.menu-toggle{display:inline-flex}.nav-actions{margin-left:auto}.nav-actions .iconbtn{padding:10px}.hero{padding:48px 0 35px}.hero-grid{grid-template-columns:1fr;gap:0}.hero h1{font-size:49px;letter-spacing:-2.7px}.hero p{font-size:13px}.hero-visual{height:270px;grid-row:1}.orb{width:240px;height:240px}.hero-product{height:320px}.floating-tag{bottom:8px;left:4px}.trust-grid{grid-template-columns:1fr;gap:14px;padding:18px 0}.trust-item{justify-content:flex-start}.trust-item br{display:none}section{padding:54px 0}.section-head{align-items:start;flex-direction:column}.section-head p{font-size:12px}.categories{gap:10px}.category{padding:16px;min-height:125px}.products{grid-template-columns:repeat(2,1fr);gap:10px}.product-image{height:145px}.product-image .emoji{font-size:58px}.product-info{padding:12px}.product h3{font-size:13px}.product-desc{font-size:10px}.add{padding:8px}.search{width:100%}.feature-box{padding:25px;display:block}.feature-mark{font-size:32px;margin-top:20px}.footer-grid{display:block}.footer-links{margin-top:22px;flex-wrap:wrap}.copyright{display:block;line-height:2}.copyright span{display:block}.mobile-only{display:inline-flex}}
+
+/* Catálogo com navegação lateral */
+.catalog{padding-top:64px;padding-bottom:82px}
+.catalog .section-head{align-items:end;margin-bottom:30px}
+.catalog-subtitle{color:var(--muted);font-size:13px;margin:9px 0 0}
+.shop-layout{display:grid;grid-template-columns:238px minmax(0,1fr);gap:25px;align-items:start}
+.category-sidebar{position:sticky;top:100px;padding:20px 14px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(160deg,rgba(15,37,61,.96),rgba(7,21,37,.96));box-shadow:0 14px 40px rgba(0,0,0,.12)}
+.sidebar-heading{padding:2px 10px 15px;border-bottom:1px solid var(--line);margin-bottom:10px}
+.sidebar-kicker{display:block;color:var(--cyan);font-size:9px;font-weight:700;letter-spacing:1.8px;margin-bottom:6px}
+.sidebar-heading strong{font:600 20px "Space Grotesk"}
+.side-category{display:flex;align-items:center;gap:12px;width:100%;padding:12px 11px;margin:3px 0;border:1px solid transparent;border-radius:11px;background:transparent;color:#a9bfd5;text-align:left;font-size:12px;cursor:pointer;transition:.2s}
+.side-category span{width:23px;text-align:center;font-size:16px}
+.side-category:hover{background:rgba(35,139,235,.09);color:#eaf7ff}
+.side-category.active{background:linear-gradient(100deg,rgba(17,132,239,.22),rgba(36,190,240,.08));border-color:rgba(58,171,255,.3);color:#effaff;box-shadow:inset 3px 0 var(--cyan)}
+.sidebar-note{margin:17px 5px 2px;padding:14px 12px;border-radius:12px;background:rgba(20,117,199,.1);border:1px solid rgba(67,159,230,.14)}
+.sidebar-note>span{color:var(--cyan);font-size:17px}
+.sidebar-note p{font-size:10px;line-height:1.55;color:#9bb4cc;margin:7px 0}
+.sidebar-note a{font-size:10px;color:#6edbff;font-weight:700}
+.catalog-results{min-width:0}
+.results-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:2px 0 16px;color:#e5f3ff;font:600 14px "Space Grotesk"}
+.results-count{font:500 10px "DM Sans";color:#718da9;letter-spacing:.7px;text-transform:uppercase}
+.catalog .products{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:1050px){.shop-layout{grid-template-columns:210px minmax(0,1fr);gap:17px}.catalog .products{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.catalog .section-head{gap:18px}.shop-layout{grid-template-columns:1fr;gap:17px}.category-sidebar{position:static;padding:14px 12px}.sidebar-heading{padding-bottom:10px}.sidebar-heading strong{font-size:17px}.category-sidebar{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:7px;scrollbar-width:thin}.sidebar-heading{display:none}.side-category{flex:0 0 auto;width:auto;white-space:nowrap;padding:10px 12px;margin:0;font-size:11px}.side-category span{width:auto}.sidebar-note{display:none}.catalog .products{grid-template-columns:repeat(2,minmax(0,1fr))}.results-top{margin-top:3px}}
+
 </style>
 </head>
 <body>
@@ -41,20 +66,19 @@ footer{border-top:1px solid var(--line);background:#050d18;padding:40px 0 25px}.
  <div class="hero-visual"><div class="orb"></div><img class="hero-product" src="https://http2.mlstatic.com/D_NQ_NP_2X_781750-MLB117863796743_092026-F-microfone-kadosh-k382m-sem-fio-duplo-profissional.webp" alt="Microfone Kadosh K-382M sem fio duplo" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div style="display:none;font-size:150px;filter:drop-shadow(0 15px 30px #0008)">🎤</div><div class="floating-tag"><b>DESTAQUE ATUAL SOM</b>Kadosh K-382M • Sistema sem fio duplo</div></div>
 </div></section>
 <div class="trust"><div class="wrap trust-grid"><div class="trust-item"><span class="trust-icon">◈</span><span><strong>Áudio profissional</strong>Equipamentos para sua estrutura</span></div><div class="trust-item"><span class="trust-icon">♫</span><span><strong>Universo musical</strong>Instrumentos para cada estilo</span></div><div class="trust-item"><span class="trust-icon">✧</span><span><strong>Atendimento próximo</strong>Ajuda para escolher melhor</span></div></div></div>
-<section id="categorias"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Explore o catálogo</span><h2>Encontre o seu equipamento</h2></div><p>Do palco ao estúdio, tudo para montar sua estrutura e fazer música.</p></div>
-<div class="categories">
-<button class="category" data-category="Sistemas de som"><span class="cat-icon">🔊</span><strong>Sistemas de som</strong><small>Caixas, subwoofers e amplificação</small></button>
-<button class="category" data-category="Mesas de som"><span class="cat-icon">🎚️</span><strong>Mesas de som</strong><small>Mixers analógicos e digitais</small></button>
-<button class="category" data-category="Microfones"><span class="cat-icon">🎙️</span><strong>Microfones</strong><small>Com fio, sem fio e estúdio</small></button>
-<button class="category" data-category="Cordas"><span class="cat-icon">🎸</span><strong>Cordas</strong><small>Violões, guitarras e contrabaixos</small></button>
-<button class="category" data-category="Teclas"><span class="cat-icon">🎹</span><strong>Teclas</strong><small>Teclados e pianos digitais</small></button>
-<button class="category" data-category="Sopro"><span class="cat-icon">🎷</span><strong>Sopro</strong><small>Saxofones, flautas e metais</small></button>
-<button class="category" data-category="Percussão"><span class="cat-icon">🥁</span><strong>Percussão</strong><small>Baterias e instrumentos rítmicos</small></button>
-<button class="category" data-category="Acessórios"><span class="cat-icon">🎛️</span><strong>Acessórios</strong><small>Cabos, suportes e conectividade</small></button>
-</div></div></section>
-<section class="catalog" id="catalogo"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Seleção Atual Som</span><h2>Produtos em destaque</h2></div><label class="search"><span>⌕</span><input id="searchInput" type="search" placeholder="Buscar instrumento ou equipamento..." aria-label="Buscar produtos"></label></div>
-<div class="filters" id="filters"><button class="filter active" data-filter="Todos">Todos</button><button class="filter" data-filter="Sistemas de som">Sistemas de som</button><button class="filter" data-filter="Mesas de som">Mesas de som</button><button class="filter" data-filter="Microfones">Microfones</button><button class="filter" data-filter="Cordas">Cordas</button><button class="filter" data-filter="Teclas">Teclas</button><button class="filter" data-filter="Sopro">Sopro</button><button class="filter" data-filter="Percussão">Percussão</button></div>
-<div class="products" id="products"></div>
+<section class="catalog" id="catalogo"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Explore o catálogo</span><h2>Encontre seu equipamento</h2><p class="catalog-subtitle">Escolha uma categoria ou descubra produtos variados.</p></div><label class="search"><span>⌕</span><input id="searchInput" type="search" placeholder="Buscar instrumento ou equipamento..." aria-label="Buscar produtos"></label></div>
+<div class="shop-layout"><aside class="category-sidebar" aria-label="Categorias de produtos"><div class="sidebar-heading"><span class="sidebar-kicker">NAVEGUE POR</span><strong>Categorias</strong></div>
+<button class="side-category active" data-category="Todos"><span>✦</span> Todos os produtos</button>
+<button class="side-category" data-category="Sistemas de som"><span>🔊</span> Sistemas de som</button>
+<button class="side-category" data-category="Mesas de som"><span>🎚️</span> Mesas de som</button>
+<button class="side-category" data-category="Microfones"><span>🎙️</span> Microfones</button>
+<button class="side-category" data-category="Cordas"><span>🎸</span> Instrumentos de cordas</button>
+<button class="side-category" data-category="Teclas"><span>🎹</span> Teclas</button>
+<button class="side-category" data-category="Sopro"><span>🎷</span> Instrumentos de sopro</button>
+<button class="side-category" data-category="Percussão"><span>🥁</span> Percussão</button>
+<button class="side-category" data-category="Acessórios"><span>🎛️</span> Acessórios</button>
+<div class="sidebar-note"><span>✧</span><p>Não encontrou o que procura? Consulte nossa equipe.</p><a href="https://www.instagram.com/atualsom/" target="_blank" rel="noopener">Fale conosco ↗</a></div></aside>
+<div class="catalog-results"><div class="results-top"><span id="resultsLabel">Todos os produtos</span><span class="results-count">Seleção Atual Som</span></div><div class="products" id="products"></div></div></div>
 </div></section>
 <section class="feature" id="sobre"><div class="wrap"><div class="feature-box"><div><span class="eyebrow">Atual Som • Música e tecnologia</span><h2>Seu projeto merece<br>um grande som.</h2><p>Uma seleção de equipamentos para músicos, igrejas, estúdios, eventos e profissionais de áudio. Fale com a equipe para consultar disponibilidade, valores e condições.</p><div class="hero-buttons"><a class="primary" href="https://www.instagram.com/atualsom/" target="_blank" rel="noopener">Fale com a Atual Som ↗</a></div></div><div class="feature-mark">SOUND<br>FOR ALL.</div></div></div></section>
 </main>
@@ -82,9 +106,8 @@ const products=[
 let activeFilter="Todos",cart=[];
 const productsEl=document.getElementById("products"),searchInput=document.getElementById("searchInput");
 function renderProducts(){const term=searchInput.value.trim().toLocaleLowerCase("pt-BR");const list=products.filter(p=>(activeFilter==="Todos"||p.category===activeFilter)&&((p.name+" "+p.category+" "+p.desc).toLocaleLowerCase("pt-BR").includes(term)));productsEl.innerHTML=list.length?list.map(p=>`<article class="product"><div class="product-image">${p.image?`<img src="${p.image}" alt="${p.name}" loading="lazy">`:`<span class="emoji" aria-hidden="true">${p.emoji}</span>`}</div><div class="product-info"><span class="product-type">${p.category}</span><h3>${p.name}</h3><p class="product-desc">${p.desc}</p><div class="product-bottom"><span class="price">Consulte o preço</span><button class="add" data-add="${p.id}">＋ Adicionar</button></div></div></article>`).join(""):'<p class="empty">Nenhum produto encontrado. Tente outra busca ou categoria.</p>';}
-function setFilter(value){activeFilter=value;document.querySelectorAll(".filter").forEach(b=>b.classList.toggle("active",b.dataset.filter===value));renderProducts();document.getElementById("catalogo").scrollIntoView({behavior:"smooth"});}
-document.getElementById("filters").addEventListener("click",e=>{const b=e.target.closest("[data-filter]");if(b)setFilter(b.dataset.filter);});
-document.querySelector(".categories").addEventListener("click",e=>{const b=e.target.closest("[data-category]");if(b){setFilter(b.dataset.category);}});
+function setFilter(value){activeFilter=value;document.querySelectorAll(".side-category").forEach(b=>b.classList.toggle("active",b.dataset.category===value));document.getElementById("resultsLabel").textContent=value==="Todos"?"Todos os produtos":value;renderProducts();if(window.innerWidth<=650)document.getElementById("catalogo").scrollIntoView({behavior:"smooth"});}
+document.querySelector(".category-sidebar").addEventListener("click",e=>{const b=e.target.closest("[data-category]");if(b)setFilter(b.dataset.category);});
 searchInput.addEventListener("input",renderProducts);
 productsEl.addEventListener("click",e=>{const b=e.target.closest("[data-add]");if(!b)return;const id=Number(b.dataset.add),item=cart.find(x=>x.id===id);if(item)item.qty++;else cart.push({id,qty:1});renderCart();b.textContent="✓ Adicionado";setTimeout(()=>b.textContent="＋ Adicionar",900);});
 function renderCart(){const count=cart.reduce((n,x)=>n+x.qty,0);document.getElementById("cartCount").textContent=count;const box=document.getElementById("cartItems");box.innerHTML=cart.length?cart.map(x=>{const p=products.find(y=>y.id===x.id);return `<div class="cart-row"><div><strong>${p.name}</strong><small>${p.category} · Quantidade: ${x.qty}</small></div><button class="remove" data-remove="${x.id}">Remover</button></div>`}).join(""):'<p class="empty">Seu carrinho ainda está vazio.</p>';const msg=cart.map(x=>{const p=products.find(y=>y.id===x.id);return x.qty+"x "+p.name;}).join(", ");document.getElementById("contactCart").href="https://www.instagram.com/atualsom/";document.getElementById("contactCart").setAttribute("aria-label",msg?"Consultar lista de interesse no Instagram":"Falar com a Atual Som no Instagram");}
@@ -92,6 +115,6 @@ document.getElementById("cartItems").addEventListener("click",e=>{const b=e.targ
 const overlay=document.getElementById("overlay"),panel=document.getElementById("cartPanel");function openCart(){overlay.classList.add("show");panel.classList.add("show");}function closeCart(){overlay.classList.remove("show");panel.classList.remove("show");}
 document.getElementById("cartOpen").addEventListener("click",openCart);document.getElementById("cartClose").addEventListener("click",closeCart);overlay.addEventListener("click",closeCart);
 document.getElementById("menuToggle").addEventListener("click",()=>document.getElementById("navLinks").classList.toggle("open"));document.querySelectorAll("#navLinks a").forEach(a=>a.addEventListener("click",()=>document.getElementById("navLinks").classList.remove("open")));
-document.getElementById("year").textContent=new Date().getFullYear();renderProducts();renderCart();
+document.getElementById("year").textContent=new Date().getFullYear();products.sort(()=>Math.random()-.5);renderProducts();renderCart();
 </script>
 </body></html>
