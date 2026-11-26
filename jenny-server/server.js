@@ -5,10 +5,17 @@ const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const allowedOrigin = process.env.SITE_ORIGIN || "https://atualsomoficial.github.io";
+const allowedOrigins = new Set([
+  "https://atualsom.github.io",
+  "https://atualsomoficial.github.io",
+  process.env.SITE_ORIGIN
+].filter(Boolean));
 
 app.use(cors({
-  origin: allowedOrigin,
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.has(origin)) return callback(null, true);
+    return callback(new Error("Origem não autorizada pelo CORS."));
+  },
   methods: ["GET", "POST"],
   allowedHeaders: ["Content-Type"]
 }));
@@ -137,6 +144,9 @@ function answer(raw, history = []) {
   }
 
   // Orientação por necessidade
+  if (has(q, [/\b(quero|preciso|montar|comprar|fazer)\b.*\b(som|sonorizacao|sistema de som)\b/, /^som$/, /^quero um som$/])) {
+    return "Claro! 💙 Vamos encontrar um sistema de som adequado. Você precisa dele para igreja, eventos, comércio ou uso em casa?";
+  }
   if (has(q, [/\b(igreja|culto|templo|ministerio|louvor|banda da igreja|som para igreja)\b/])) {
     return "Para sonorizar uma igreja, normalmente vale avaliar caixas de som, mesa de som, microfones e cabos. A escolha depende do tamanho do ambiente, quantidade de pessoas, instrumentos e se o som será usado também para transmissão. É para quantas pessoas, aproximadamente?";
   }
