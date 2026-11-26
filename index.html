@@ -60,7 +60,7 @@ footer{border-top:1px solid var(--line);background:#050d18;padding:40px 0 25px}.
 .catalog-results{min-width:0}
 .results-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:2px 0 16px;color:#e5f3ff;font:600 14px "Space Grotesk"}
 .results-count{font:500 10px "DM Sans";color:#718da9;letter-spacing:.7px;text-transform:uppercase}.sort-control{display:flex;align-items:center;gap:9px;color:#8faac4;font:500 11px "DM Sans";white-space:nowrap}.sort-control select{appearance:none;border:1px solid rgba(76,165,235,.25);border-radius:10px;background:#0b1b30;color:#e8f5ff;padding:10px 32px 10px 12px;font:600 11px "DM Sans";cursor:pointer;outline:none}.sort-control select:focus{border-color:var(--cyan)}.price-disclaimer{margin:-7px 0 15px;color:#7693af;font-size:10px;line-height:1.5}
-.catalog .products{grid-template-columns:repeat(3,minmax(0,1fr))}
+.catalog .products{grid-template-columns:repeat(2,minmax(0,1fr))}
 @media(max-width:1050px){.shop-layout{grid-template-columns:210px minmax(0,1fr);gap:17px}.catalog .products{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:650px){.catalog .section-head{gap:18px}.shop-layout{grid-template-columns:1fr;gap:17px}.category-sidebar{position:static;padding:14px 12px}.sidebar-heading{padding-bottom:10px}.sidebar-heading strong{font-size:17px}.category-sidebar{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:7px;scrollbar-width:thin}.sidebar-heading{display:none}.side-category{flex:0 0 auto;width:auto;white-space:nowrap;padding:10px 12px;margin:0;font-size:11px}.side-category span{width:auto}.sidebar-note{display:none}.catalog .products{grid-template-columns:repeat(2,minmax(0,1fr))}.results-top{margin-top:3px}}
 
@@ -252,21 +252,9 @@ body.detail-open{overflow:hidden}
  <div class="experience-head"><div><span class="eyebrow">ATUAL SOM EXPERIENCE</span><h2>Seu som. Suas possibilidades.</h2></div><p>Mais do que encontrar equipamentos: explore como eles trabalham juntos e comece a planejar a estrutura ideal para o seu projeto.</p></div>
  <div class="experience-grid">
   <button class="experience-card" type="button" data-experience="store"><span class="experience-number">01 / STORE <span>↗</span></span><span class="experience-symbol">▦</span><strong>Explore a loja</strong><p>Descubra instrumentos, áudio profissional, sistemas e acessórios em nosso catálogo.</p><span class="experience-go">Conhecer produtos →</span></button>
-  <button class="experience-card" type="button" data-experience="lab"><span class="experience-number">02 / LAB <span>↗</span></span><span class="experience-symbol">⌁</span><strong>Entenda as conexões</strong><p>Explore visualmente o caminho do sinal entre microfones, mesas, processamento e caixas.</p><span class="experience-go">Abrir laboratório →</span></button>
   <button class="experience-card" type="button" data-experience="connect"><span class="experience-number">03 / CONNECT <span>↗</span></span><span class="experience-symbol">⌘</span><strong>Planeje seu projeto</strong><p>Conte o que precisa sonorizar e organize um briefing inicial para conversar com nossa equipe.</p><span class="experience-go">Começar planejamento →</span></button>
  </div>
 </div></section>
-<div class="experience-modal" id="experienceLab" role="dialog" aria-modal="true" aria-labelledby="labTitle"><div class="experience-dialog">
- <div class="experience-dialog-head"><div><small>ATUAL SOM LAB / 01</small><h3 id="labTitle">Explore o caminho do áudio</h3><p>Selecione os equipamentos e veja uma representação simplificada do fluxo do sinal.</p></div><button class="experience-close" type="button" data-close-experience>Fechar ✕</button></div>
- <div class="lab-controls">
-  <label>Origem do sinal<select id="labSource"><option value="Microfone">Microfone</option><option value="Instrumento">Instrumento</option><option value="Celular / computador">Celular / computador</option></select></label>
-  <label>Controle<select id="labMixer"><option value="Mesa de som">Mesa de som</option><option value="Interface de áudio">Interface de áudio</option><option value="Mixer amplificado">Mixer amplificado</option></select></label>
-  <label>Etapa intermediária<select id="labProcess"><option value="Processador de áudio">Processador de áudio</option><option value="Sem processamento adicional">Sem processamento adicional</option><option value="Direct box (DI)">Direct box (DI)</option></select></label>
-  <label>Destino<select id="labOutput"><option value="Caixas ativas">Caixas ativas</option><option value="Amplificador + caixas passivas">Amplificador + caixas passivas</option><option value="Monitores de estúdio">Monitores de estúdio</option></select></label>
- </div>
- <div class="lab-flow" id="labFlow" aria-live="polite"></div>
- <div class="lab-note">Este é um esquema conceitual, não um projeto elétrico ou uma validação automática de compatibilidade. Conexões, níveis de sinal, impedância e potência devem ser conferidos nas especificações de cada equipamento.</div>
-</div></div>
 <div class="experience-modal" id="experienceConnect" role="dialog" aria-modal="true" aria-labelledby="connectTitle"><div class="experience-dialog">
  <div class="experience-dialog-head"><div><small>ATUAL SOM CONNECT / 01</small><h3 id="connectTitle">Vamos desenhar sua ideia?</h3><p>Responda algumas perguntas e gere um resumo para iniciar seu atendimento.</p></div><button class="experience-close" type="button" data-close-experience>Fechar ✕</button></div>
  <div class="planner-fields">
@@ -415,27 +403,26 @@ document.getElementById("year").textContent=new Date().getFullYear();document.ge
 })();
 
 
-/* Atual Som Experience: ferramentas interativas */
+/* Atual Som Experience: Store e Connect */
 (function(){
- const lab=document.getElementById("experienceLab"),connect=document.getElementById("experienceConnect");
- const modals={lab,connect};
- function openModal(which){const m=modals[which];if(!m)return;m.classList.add("open");document.body.style.overflow="hidden";if(which==="lab")renderFlow();}
- function closeModal(m){m.classList.remove("open");if(!document.querySelector(".experience-modal.open"))document.body.style.overflow="";}
- document.querySelectorAll("[data-experience]").forEach(b=>b.addEventListener("click",()=>{const type=b.dataset.experience;if(type==="store"){document.getElementById("catalogo").scrollIntoView({behavior:"smooth"});return;}openModal(type);}));
- document.querySelectorAll("[data-close-experience]").forEach(b=>b.addEventListener("click",()=>closeModal(b.closest(".experience-modal"))));
- document.querySelectorAll(".experience-modal").forEach(m=>{m.addEventListener("click",e=>{if(e.target===m)closeModal(m);});});
- document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll(".experience-modal.open").forEach(closeModal);});
- const fields=["labSource","labMixer","labProcess","labOutput"];
- function renderFlow(){const values=fields.map(id=>document.getElementById(id).value);const icons=["🎙️","🎚️","⚙️","🔊"];document.getElementById("labFlow").innerHTML=values.map((v,i)=>(i?'<span class="lab-arrow" aria-hidden="true">→</span>':'')+'<div class="lab-node"><span>'+icons[i]+'</span><strong>'+v+'</strong></div>').join("");}
- fields.forEach(id=>document.getElementById(id).addEventListener("change",renderFlow));renderFlow();
+ const connect=document.getElementById("experienceConnect");
+ function openModal(){if(!connect)return;connect.classList.add("open");document.body.style.overflow="hidden";}
+ function closeModal(){if(!connect)return;connect.classList.remove("open");document.body.style.overflow="";}
+ document.querySelectorAll("[data-experience]").forEach(b=>b.addEventListener("click",()=>{
+  if(b.dataset.experience==="store"){document.getElementById("catalogo").scrollIntoView({behavior:"smooth"});return;}
+  if(b.dataset.experience==="connect")openModal();
+ }));
+ document.querySelectorAll("[data-close-experience]").forEach(b=>b.addEventListener("click",closeModal));
+ if(connect)connect.addEventListener("click",e=>{if(e.target===connect)closeModal();});
+ document.addEventListener("keydown",e=>{if(e.key==="Escape"&&connect?.classList.contains("open"))closeModal();});
  document.getElementById("generatePlan").addEventListener("click",()=>{
   const pairs=[["Aplicação","planUse"],["Espaço","planSpace"],["Público estimado","planPeople"],["Prioridade","planPriority"],["Equipamentos existentes","planExisting"],["Investimento previsto","planBudget"]];
-  const summary="PROJETO DE SONORIZAÇÃO — ATUAL SOM\n\n"+pairs.map(([label,id])=>label+": "+document.getElementById(id).value).join("\n")+"\n\nSolicito uma avaliação e orientação da equipe para definir os equipamentos adequados e verificar compatibilidade.";
+  const summary="PROJETO DE SONORIZAÇÃO — ATUAL SOM\\n\\n"+pairs.map(([label,id])=>label+": "+document.getElementById(id).value).join("\\n")+"\\n\\nSolicito uma avaliação e orientação da equipe para definir os equipamentos adequados e verificar compatibilidade.";
   document.getElementById("plannerText").textContent=summary;document.getElementById("plannerResult").classList.add("show");
  });
  document.getElementById("copyPlan").addEventListener("click",async()=>{
   const value=document.getElementById("plannerText").textContent;const b=document.getElementById("copyPlan");
-  try{await navigator.clipboard.writeText(value);b.textContent="Resumo copiado ✓";}catch(e){const range=document.createRange();range.selectNodeContents(document.getElementById("plannerText"));const selection=window.getSelection();selection.removeAllRanges();selection.addRange(range);b.textContent="Selecione e copie o texto";} 
+  try{await navigator.clipboard.writeText(value);b.textContent="Resumo copiado ✓";}catch(e){const range=document.createRange();range.selectNodeContents(document.getElementById("plannerText"));const selection=window.getSelection();selection.removeAllRanges();selection.addRange(range);b.textContent="Selecione e copie o texto";}
  });
  document.getElementById("planInstagram").addEventListener("click",()=>{const message=document.getElementById("plannerText").textContent;window.open("https://wa.me/559984646848?text="+encodeURIComponent(message),"_blank","noopener");});
 })();
