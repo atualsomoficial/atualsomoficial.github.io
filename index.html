@@ -345,21 +345,33 @@ document.getElementById("year").textContent=new Date().getFullYear();document.ge
  launch.addEventListener("click",()=>win.classList.contains("open")?shut():open());close.addEventListener("click",shut);
  function add(text,who){const el=document.createElement("div");el.className="jenny-msg "+who;el.textContent=text;messages.appendChild(el);messages.scrollTop=messages.scrollHeight;}
  function answer(raw){
-  const q=raw.toLocaleLowerCase("pt-BR").normalize("NFD").replace(/[\u0300-\u036f]/g,"");
-  if(/(oi|ola|bom dia|boa tarde|boa noite|tudo bem)/.test(q))return "Olá! Que bom falar com você! 💙 Como posso ajudar com seu equipamento ou instrumento?";
-  if(/(categoria|vendem|produtos|catalogo|tem o que|trabalha com)/.test(q)){const cats=[...new Set(products.map(p=>p.category))];return "Trabalhamos com estas categorias:\n• "+cats.join("\n• ")+"\n\nVocê pode explorar todos os itens na seção Produtos do site. Qual categoria procura?";}
-  if(/(igreja|culto|templo)/.test(q))return "Para uma igreja, normalmente vale considerar caixas de som adequadas ao espaço, mesa de som, microfones e cabos. O melhor conjunto depende do tamanho do ambiente, quantidade de pessoas e uso. Quantas pessoas costumam participar?";
-  if(/(estudio|gravar|gravacao)/.test(q))return "Para um pequeno estúdio, podemos avaliar interface de áudio, microfone condensador, fones e monitores. Você quer gravar voz, instrumentos ou os dois?";
-  if(/(orcamento|preco|valor|custa|pagamento|boleto|cartao)/.test(q))return "Os preços exibidos no catálogo são ilustrativos, exceto quando uma condição específica está descrita na ficha do produto. Para confirmar preço, estoque e pagamento, consulte a equipe da Atual Som pelo Instagram.";
-  if(/(entrega|frete|envio|prazo|estoque|disponivel)/.test(q))return "Não tenho acesso em tempo real ao estoque, frete ou prazos. Para confirmar essas informações, fale diretamente com a equipe da Atual Som pelo Instagram: @atualsom.";
-  if(/(atendente|humano|vendedor|equipe|whatsapp|instagram|falar com)/.test(q))return "Claro! Você pode falar com a equipe pelo Instagram @atualsom: https://www.instagram.com/atualsom/ . Eles poderão confirmar disponibilidade, valores e condições.";
-  const found=products.filter(p=>(p.name+" "+p.category+" "+p.desc).toLocaleLowerCase("pt-BR").normalize("NFD").replace(/[\u0300-\u036f]/g,"").split(/\s+/).some(w=>w.length>3&&q.includes(w)));
-  if(found.length){return "Encontrei no catálogo:\n"+found.slice(0,5).map(p=>"• "+p.name+" ("+p.category+")").join("\n")+"\n\nOs valores do catálogo podem ser ilustrativos. Abra a ficha do produto para ver mais detalhes.";}
-  return "Ainda não tenho uma resposta específica para isso. Posso ajudar com categorias, produtos e orientações iniciais. Se precisar confirmar preço, estoque ou condições, fale com a equipe pelo Instagram @atualsom.";
+  const q=raw.toLocaleLowerCase("pt-BR").normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").trim();
+  const clean=q.replace(/[!?.,;:]+/g," ").replace(/\\s+/g," ").trim();
+  if(/^(oi|ola|e ai|eae|opa|hey|hello|bom dia|boa tarde|boa noite)( jenny)?$/.test(clean)||/^(oi|ola|bom dia|boa tarde|boa noite) jenny( tudo bem)?$/.test(clean))return "Oi! 💙 Tudo bem por aqui, pronta para conversar e ajudar. E com você, como está? Pode me perguntar sobre a loja ou qualquer outro assunto.";
+  if(/^(jenny|jenny\s+\?+|ei jenny|esta ai jenny|voce esta ai)$/.test(clean))return "Oi! Estou aqui 😊 Pode falar comigo. O que você gostaria de conversar?";
+  if(/(tudo bem|como voce esta|como vai voce|como foi seu dia)/.test(clean))return "Estou funcionando direitinho e pronta para ajudar! 💙 E você, como está?";
+  if(/^(quem e voce|qual seu nome|como voce se chama|voce e quem)$/.test(clean))return "Eu sou a Jenny, assistente virtual da Atual Som. Posso conversar sobre vários assuntos, explicar coisas, dar ideias e também ajudar você a conhecer nossos instrumentos, equipamentos e sistemas de som.";
+  if(/(voce e uma ia|e uma inteligencia artificial|voce e humana|voce e um robo)/.test(clean))return "Sou uma inteligência artificial criada para conversar e ajudar. Não sou uma pessoa, mas posso explicar assuntos, organizar ideias e ajudar com dúvidas — além de atender sobre a Atual Som.";
+  if(/(obrigad|valeu|agradeco|muito bom|ajudou bastante)/.test(clean))return "Por nada! 💙 Fico contente em ajudar. Se surgir outra dúvida, pode mandar.";
+  if(/(tchau|ate mais|ate logo|vou nessa|falou)/.test(clean))return "Até mais! Foi bom conversar com você. 💙 Quando quiser, estarei por aqui.";
+  if(/(conte uma piada|me conta uma piada|faz uma piada|me faz rir)/.test(clean))return "Por que o músico levou uma escada para o ensaio? Porque queria alcançar as notas mais altas! 🎶";
+  if(/(estou triste|to triste|dia dificil|dia difícil|nao estou bem|não estou bem)/.test(clean))return "Poxa, sinto muito que seu dia esteja assim. 💙 Se quiser, pode me contar o que aconteceu. Posso ouvir e ajudar você a organizar os pensamentos.";
+  if(/(bom dia|boa tarde|boa noite)/.test(clean))return "Olá! 💙 Espero que seu dia esteja indo bem. Como posso ajudar?";
+  if(/(categoria|vendem|produtos|catalogo|tem o que|trabalha com)/.test(clean)){const cats=[...new Set(products.map(p=>p.category))];return "Trabalhamos com estas categorias:\\n• "+cats.join("\\n• ")+"\\n\\nVocê pode explorar os itens na seção Produtos do site. Qual categoria procura?";}
+  if(/(igreja|culto|templo)/.test(clean))return "Para uma igreja, normalmente vale considerar caixas de som adequadas ao espaço, mesa de som, microfones e cabos. O conjunto depende do tamanho do ambiente, quantidade de pessoas e uso. Quantas pessoas costumam participar?";
+  if(/(estudio|gravar|gravacao)/.test(clean))return "Para um pequeno estúdio, podemos avaliar interface de áudio, microfone, fones e monitores. Você quer gravar voz, instrumentos ou os dois?";
+  if(/(orcamento|preco|valor|custa|pagamento|boleto|cartao)/.test(clean))return "Os preços exibidos no catálogo são ilustrativos, exceto quando uma condição específica está descrita na ficha do produto. Para confirmar preço, estoque e pagamento, consulte a equipe da Atual Som.";
+  if(/(entrega|frete|envio|prazo|estoque|disponivel)/.test(clean))return "Não tenho acesso em tempo real ao estoque, frete ou prazos. Para confirmar essas informações, fale diretamente com a equipe da Atual Som pelo WhatsApp: (99) 8464-6848.";
+  if(/(atendente|humano|vendedor|equipe|whatsapp|instagram|falar com)/.test(clean))return "Claro! Você pode falar com a equipe da Atual Som pelo WhatsApp: https://wa.me/559984646848";
+  const found=products.filter(p=>(p.name+" "+p.category+" "+p.desc).toLocaleLowerCase("pt-BR").normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").split(/\\s+/).some(w=>w.length>3&&clean.includes(w)));
+  if(found.length)return "Encontrei no catálogo:\\n"+found.slice(0,5).map(p=>"• "+p.name+" ("+p.category+")").join("\\n")+"\\n\\nOs valores do catálogo podem ser ilustrativos. Abra a ficha do produto para ver mais detalhes.";
+  return null;
  }
  async function send(value){
   const text=value.trim();if(!text)return;
   add(text,"user");input.value="";
+  const localReply=answer(text);
+  if(localReply){add(localReply,"bot");return;}
   try{
    const response=await fetch("https://atualsomoficial-github-io.onrender.com/api/chat",{
     method:"POST",
@@ -374,7 +386,7 @@ document.getElementById("year").textContent=new Date().getFullYear();document.ge
   }catch(error){
    console.warn("Jenny: servidor indisponível; usando respostas locais.",error);
   }
-  add(answer(text),"bot");
+  add("No momento não consegui acessar minha base de respostas. Pode tentar novamente em instantes? Se for algo sobre produtos, preços ou disponibilidade, fale com a equipe pelo WhatsApp: https://wa.me/559984646848","bot");
  }
  form.addEventListener("submit",e=>{e.preventDefault();send(input.value);});
  win.querySelectorAll("[data-jenny-suggest]").forEach(b=>b.addEventListener("click",()=>send(b.dataset.jennySuggest)));
