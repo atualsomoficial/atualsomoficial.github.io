@@ -58,7 +58,8 @@ function answer(raw, history = []) {
   const previous = Array.isArray(history) ? history.slice(-8) : [];
   const lastUser = [...previous].reverse().find((m) => m && (m.role === "user") && typeof m.content === "string");
   const lastAssistant = [...previous].reverse().find((m) => m && (m.role === "assistant") && typeof m.content === "string");
-  const context = normalize([lastUser?.content, lastAssistant?.content].filter(Boolean).join(" "));
+  const context = normalize(previous.map((m) => m?.content || "").join(" "));
+  const lastAssistantText = normalize(lastAssistant?.content || "");
   const shortReply = /^(sim|s|isso|exato|claro|pode|pode ser|nao|não|n|talvez|esse|essa|qual deles|me explica|como assim)$/.test(q);
 
   // Continuidade: interpreta respostas curtas usando o assunto imediatamente anterior.
@@ -79,6 +80,7 @@ function answer(raw, history = []) {
   }
   if (/^(e voce|e vc|e tu|e ai|e voce como esta|e vc como ta)$/.test(q)) return "Estou por aqui e pronta para ajudar! 💙 Mas quero saber de você também: está procurando alguma coisa para a loja ou só quer conversar um pouco?";
   if (/^(jenny|ei jenny|voce ai|esta ai)$/.test(q)) return "Estou aqui! 😊 Pode continuar de onde paramos. Sobre o que você quer conversar?";
+  if (shortReply && !context) return "Claro! 😊 Me dá só mais um pouquinho de contexto: sobre o que você está falando?";
   if (/^(entendi|certo|ok|ta bom|beleza|show)$/.test(q)) return "Combinado! Quer que eu aprofunde esse assunto ou prefere perguntar outra coisa?";
   if (/^(nao sei|não sei|ainda nao sei|ainda não sei)$/.test(q)) return "Tudo bem, podemos descobrir juntos. Me conta primeiro o que você está tentando resolver, sem precisar saber o nome do equipamento.";
   if (!q) return "Pode me contar o que você está procurando? Posso ajudar com instrumentos, equipamentos de áudio, categorias e informações do catálogo.";
