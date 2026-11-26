@@ -53,8 +53,34 @@ function humanContact(reason) {
   return "Para " + reason + ", a equipe da Atual Som precisa confirmar a informação. Você pode chamar pelo Instagram: https://www.instagram.com/atualsom/. Se preferir, diga qual produto procura e eu tento ajudar com as informações cadastradas.";
 }
 
-function answer(raw) {
+function answer(raw, history = []) {
   const q = normalize(raw);
+  const previous = Array.isArray(history) ? history.slice(-8) : [];
+  const lastUser = [...previous].reverse().find((m) => m && (m.role === "user") && typeof m.content === "string");
+  const lastAssistant = [...previous].reverse().find((m) => m && (m.role === "assistant") && typeof m.content === "string");
+  const context = normalize([lastUser?.content, lastAssistant?.content].filter(Boolean).join(" "));
+  const shortReply = /^(sim|s|isso|exato|claro|pode|pode ser|nao|não|n|talvez|esse|essa|qual deles|me explica|como assim)$/.test(q);
+
+  // Continuidade: interpreta respostas curtas usando o assunto imediatamente anterior.
+  if (shortReply && context) {
+    if (/igreja|culto|templo|louvor/.test(context)) {
+      if (/^(sim|s|isso|exato|claro|pode|pode ser)$/.test(q)) return "Ótimo! Para eu continuar a orientação, me diga aproximadamente quantas pessoas frequentam a igreja e se o ambiente é pequeno, médio ou grande.";
+      if (/^(nao|não|n)$/.test(q)) return "Sem problema. Você quer pensar em outra solução para a igreja ou prefere me contar o que precisa sonorizar?";
+    }
+    if (/estudio|gravar|gravacao|podcast/.test(context)) {
+      if (/^(sim|s|isso|exato|claro|pode|pode ser)$/.test(q)) return "Perfeito. Você pretende gravar voz, instrumentos ou os dois? Assim consigo orientar melhor sobre microfone, interface e monitoração.";
+      if (/^(nao|não|n)$/.test(q)) return "Tudo bem. O que você pretende fazer no lugar da gravação: sonorização ao vivo, ensaio ou outra aplicação?";
+    }
+    if (/microfone/.test(context)) return "Certo! Só para eu não indicar algo errado: você precisa de microfone com fio, sem fio ou para gravação?";
+    if (/mesa de som|mixer/.test(context)) return "Entendi. A mesa será usada em igreja, evento ou estúdio? E quantos microfones ou instrumentos pretende conectar?";
+    if (/caixa de som|subwoofer|sistema de som/.test(context)) return "Vamos por partes: o sistema será usado em ambiente fechado ou aberto? Se puder, diga também o tamanho aproximado do espaço.";
+    if (/teclado|piano digital/.test(context)) return "Certo! Você procura um teclado para estudar, tocar na igreja ou fazer apresentações?";
+    if (/violao|guitarra|contrabaixo/.test(context)) return "Legal! Você está procurando para começar a estudar ou já toca e quer escolher um instrumento para apresentações?";
+  }
+  if (/^(e voce|e vc|e tu|e ai|e voce como esta|e vc como ta)$/.test(q)) return "Estou por aqui e pronta para ajudar! 💙 Mas quero saber de você também: está procurando alguma coisa para a loja ou só quer conversar um pouco?";
+  if (/^(jenny|ei jenny|voce ai|esta ai)$/.test(q)) return "Estou aqui! 😊 Pode continuar de onde paramos. Sobre o que você quer conversar?";
+  if (/^(entendi|certo|ok|ta bom|beleza|show)$/.test(q)) return "Combinado! Quer que eu aprofunde esse assunto ou prefere perguntar outra coisa?";
+  if (/^(nao sei|não sei|ainda nao sei|ainda não sei)$/.test(q)) return "Tudo bem, podemos descobrir juntos. Me conta primeiro o que você está tentando resolver, sem precisar saber o nome do equipamento.";
   if (!q) return "Pode me contar o que você está procurando? Posso ajudar com instrumentos, equipamentos de áudio, categorias e informações do catálogo.";
 
   // Cumprimentos e conversa natural
@@ -195,10 +221,13 @@ app.get("/health", (_req, res) => {
 
 app.post("/api/chat", (req, res) => {
   const message = typeof req.body?.message === "string" ? req.body.message.trim() : "";
+  const history = Array.isArray(req.body?.history) ? req.body.history
+    .filter((item) => item && ["user", "assistant"].includes(item.role) && typeof item.content === "string")
+    .slice(-12) : [];
   if (!message) {
     return res.status(400).json({ error: "Envie uma mensagem para a Jenny." });
   }
-  return res.json({ reply: answer(message) });
+  return res.json({ reply: answer(message, history) });
 });
 
 app.use((err, _req, res, _next) => {
