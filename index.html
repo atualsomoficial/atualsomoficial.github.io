@@ -385,23 +385,29 @@ document.getElementById("year").textContent=new Date().getFullYear();document.ge
  async function send(value){
   const text=value.trim();if(!text)return;
   add(text,"user");input.value="";
-  const localReply=answer(text);
-  if(localReply){add(localReply,"bot");return;}
+  const history=[...messages.children].slice(-13).map(el=>({
+   role:el.classList.contains("user")?"user":"assistant",
+   content:el.textContent
+  }));
+  const pending=document.createElement("div");pending.className="jenny-msg bot";pending.textContent="Estou pensando...";messages.appendChild(pending);messages.scrollTop=messages.scrollHeight;
   try{
    const response=await fetch("https://atualsomoficial-github-io.onrender.com/api/chat",{
     method:"POST",
     headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({message:text})
+    body:JSON.stringify({message:text,history:history.slice(0,-1)})
    });
    const data=await response.json();
+   pending.remove();
    if(response.ok&&typeof data.reply==="string"&&data.reply.trim()){
     add(data.reply,"bot");
     return;
    }
+   throw new Error(data.error||"Resposta inválida");
   }catch(error){
-   console.warn("Jenny: servidor indisponível; usando respostas locais.",error);
+   pending.remove();
+   console.warn("Jenny: servidor indisponível.",error);
+   add("Não consegui acessar o servidor agora. Tente novamente em instantes ou fale com a equipe pelo WhatsApp: https://wa.me/559984646848","bot");
   }
-  add("No momento não consegui acessar minha base de respostas. Pode tentar novamente em instantes? Se for algo sobre produtos, preços ou disponibilidade, fale com a equipe pelo WhatsApp: https://wa.me/559984646848","bot");
  }
  form.addEventListener("submit",e=>{e.preventDefault();send(input.value);});
  win.querySelectorAll("[data-jenny-suggest]").forEach(b=>b.addEventListener("click",()=>send(b.dataset.jennySuggest)));
