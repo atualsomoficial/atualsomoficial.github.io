@@ -405,8 +405,15 @@ document.getElementById("year").textContent=new Date().getFullYear();document.ge
    throw new Error(data.error||"Resposta inválida");
   }catch(error){
    pending.remove();
-   console.warn("Jenny: servidor indisponível.",error);
-   add("Não consegui acessar o servidor agora. Tente novamente em instantes ou fale com a equipe pelo WhatsApp: https://wa.me/559984646848","bot");
+   console.warn("Jenny: servidor indisponível; usando atendimento local.",error);
+   const normalized=text.toLocaleLowerCase("pt-BR").normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").trim();
+   let localReply=null;
+   if(/\\b(quero|preciso|montar|comprar)\\b.*\\b(som|sonorizacao)\\b/.test(normalized)||/^(quero um som|som)$/.test(normalized)){
+    localReply="Claro! 💙 Vamos encontrar um sistema de som adequado. Você precisa dele para igreja, eventos, comércio ou uso em casa?";
+   }else{
+    localReply=answer(text);
+   }
+   add(localReply||"Não consegui acessar o servidor agora. Você pode tentar novamente ou falar com a equipe pelo WhatsApp: https://wa.me/559984646848","bot");
   }
  }
  form.addEventListener("submit",e=>{e.preventDefault();send(input.value);});
