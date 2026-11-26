@@ -252,6 +252,7 @@ body.detail-open{overflow:hidden}
  <div class="experience-head"><div><span class="eyebrow">ATUAL SOM EXPERIENCE</span><h2>Seu som. Suas possibilidades.</h2></div><p>Mais do que encontrar equipamentos: explore como eles trabalham juntos e comece a planejar a estrutura ideal para o seu projeto.</p></div>
  <div class="experience-grid">
   <button class="experience-card" type="button" data-experience="store"><span class="experience-number">01 / STORE <span>↗</span></span><span class="experience-symbol">▦</span><strong>Explore a loja</strong><p>Descubra instrumentos, áudio profissional, sistemas e acessórios em nosso catálogo.</p><span class="experience-go">Conhecer produtos →</span></button>
+  <button class="experience-card" type="button" data-experience="projects"><span class="experience-number">02 / PROJECTS <span>↗</span></span><span class="experience-symbol">◉</span><strong>Encontre o som ideal</strong><p>Informe as medidas do ambiente e receba uma orientação inicial de sonorização, incluindo avaliação de caixas delay.</p><span class="experience-go">Analisar meu espaço →</span></button>
   <button class="experience-card" type="button" data-experience="connect"><span class="experience-number">03 / CONNECT <span>↗</span></span><span class="experience-symbol">⌘</span><strong>Planeje seu projeto</strong><p>Conte o que precisa sonorizar e organize um briefing inicial para conversar com nossa equipe.</p><span class="experience-go">Começar planejamento →</span></button>
  </div>
 </div></section>
@@ -268,6 +269,20 @@ body.detail-open{overflow:hidden}
  <div class="planner-note">O resultado é um briefing inicial, não uma lista automática de equipamentos. A equipe poderá avaliar o ambiente, as necessidades e a compatibilidade antes de indicar um sistema.</div>
  <div class="planner-actions"><button type="button" id="generatePlan">Gerar meu resumo ↗</button></div>
  <div class="planner-result" id="plannerResult" aria-live="polite"><h4>Resumo do seu projeto</h4><pre id="plannerText"></pre><div class="planner-actions"><button type="button" id="copyPlan">Copiar resumo</button><button type="button" id="planInstagram">Enviar pelo WhatsApp ↗</button></div></div>
+</div></div>
+<div class="experience-modal" id="experienceProjects" role="dialog" aria-modal="true" aria-labelledby="projectsTitle"><div class="experience-dialog">
+ <div class="experience-dialog-head"><div><small>ATUAL SOM PROJECTS / ANÁLISE INICIAL</small><h3 id="projectsTitle">Vamos dimensionar seu som?</h3><p>Informe as medidas e o uso do ambiente para receber uma orientação inicial.</p></div><button class="experience-close" type="button" data-close-projects>Fechar ✕</button></div>
+ <div class="planner-fields">
+  <label>Comprimento do ambiente (metros)<input id="soundLength" type="number" min="1" max="500" step="0.1" placeholder="Ex.: 28"></label>
+  <label>Largura do ambiente (metros)<input id="soundWidth" type="number" min="1" max="300" step="0.1" placeholder="Ex.: 12"></label>
+  <label>Pé-direito / altura (metros)<input id="soundHeight" type="number" min="2" max="100" step="0.1" placeholder="Ex.: 5"></label>
+  <label>Uso principal<select id="soundUse"><option>Igreja / templo</option><option>Auditório / salão</option><option>Eventos / apresentações</option><option>Quadra / espaço esportivo</option><option>Restaurante / comércio</option><option>Outro</option></select></label>
+  <label>Público estimado<select id="soundCrowd"><option>Até 50 pessoas</option><option>51 a 150 pessoas</option><option>151 a 300 pessoas</option><option>301 a 600 pessoas</option><option>Mais de 600 pessoas</option></select></label>
+  <label>Prioridade<select id="soundPriority"><option>Voz e fala com clareza</option><option>Música ao vivo</option><option>Voz e música equilibradas</option><option>Som ambiente</option></select></label>
+ </div>
+ <div class="planner-actions"><button type="button" id="analyzeSound">Analisar ambiente ↗</button></div>
+ <div class="planner-result" id="soundResult" aria-live="polite"><h4>Orientação inicial</h4><pre id="soundText"></pre><div class="planner-actions"><button type="button" id="copySound">Copiar análise</button><button type="button" id="sendSound">Enviar pelo WhatsApp ↗</button></div></div>
+ <div class="planner-note">Esta análise é preliminar. A escolha de caixas, potência, quantidade e posicionamento depende também de acústica, cobertura, dispersão, ruído e visita técnica. A indicação de delay acima de 26 m é um alerta para avaliação, não uma especificação automática.</div>
 </div></div>
 <section class="catalog" id="catalogo"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Explore o catálogo</span><h2>Encontre seu equipamento</h2><p class="catalog-subtitle">Escolha uma categoria ou descubra produtos variados.</p></div><label class="search"><span>⌕</span><input id="searchInput" type="search" placeholder="Buscar instrumento ou equipamento..." aria-label="Buscar produtos"></label></div>
 <div class="shop-layout"><aside class="category-sidebar" id="categorias" aria-label="Categorias de produtos"><div class="sidebar-heading"><span class="sidebar-kicker">NAVEGUE POR</span><strong>Categorias</strong></div>
@@ -415,6 +430,29 @@ document.getElementById("year").textContent=new Date().getFullYear();document.ge
 })();
 
 
+/* Atual Som Projects: orientação inicial de sonorização por dimensões */
+(function(){
+ const modal=document.getElementById("experienceProjects");
+ if(!modal)return;
+ const open=()=>{modal.classList.add("open");document.body.style.overflow="hidden";};
+ const close=()=>{modal.classList.remove("open");document.body.style.overflow="";};
+ document.querySelectorAll('[data-experience="projects"]').forEach(b=>b.addEventListener("click",open));
+ document.querySelectorAll("[data-close-projects]").forEach(b=>b.addEventListener("click",close));
+ modal.addEventListener("click",e=>{if(e.target===modal)close();});
+ document.addEventListener("keydown",e=>{if(e.key==="Escape"&&modal.classList.contains("open"))close();});
+ document.getElementById("analyzeSound").addEventListener("click",()=>{
+  const length=Number(document.getElementById("soundLength").value),width=Number(document.getElementById("soundWidth").value),height=Number(document.getElementById("soundHeight").value);
+  if(!(length>0&&width>0&&height>0)){alert("Informe comprimento, largura e altura válidos para analisar o ambiente.");return;}
+  const area=length*width,volume=area*height,use=document.getElementById("soundUse").value,crowd=document.getElementById("soundCrowd").value,priority=document.getElementById("soundPriority").value;
+  const longRoom=length>26;
+  let advice="A princípio, avalie um sistema de sonorização principal distribuído de forma simétrica, com cobertura adequada à largura e ao público. A quantidade e o modelo das caixas devem ser definidos após verificar ângulo de cobertura, distância de escuta, SPL necessário e acústica.";
+  if(longRoom)advice="ATENÇÃO À PROFUNDIDADE DO AMBIENTE: como o comprimento ultrapassa 26 metros, recomendamos que a equipe avalie o uso de caixas delay (reforço distribuído) para manter a inteligibilidade e o nível sonoro ao longo do espaço. O número, a posição, o atraso e o nível dessas caixas precisam de projeto técnico; não devem ser definidos apenas pela metragem.";
+  const summary="ANÁLISE INICIAL DE SONORIZAÇÃO — ATUAL SOM\n\nComprimento: "+length+" m\nLargura: "+width+" m\nAltura: "+height+" m\nÁrea: "+area.toFixed(1)+" m²\nVolume: "+volume.toFixed(1)+" m³\nAplicação: "+use+"\nPúblico estimado: "+crowd+"\nPrioridade: "+priority+"\n\nORIENTAÇÃO INICIAL\n"+advice+"\n\nEsta é uma triagem inicial. Solicito avaliação da equipe para definir equipamentos, cobertura, posicionamento e compatibilidade.";
+  document.getElementById("soundText").textContent=summary;document.getElementById("soundResult").classList.add("show");
+ });
+ document.getElementById("copySound").addEventListener("click",async()=>{const b=document.getElementById("copySound");try{await navigator.clipboard.writeText(document.getElementById("soundText").textContent);b.textContent="Análise copiada ✓";}catch(e){b.textContent="Selecione e copie o texto";}});
+ document.getElementById("sendSound").addEventListener("click",()=>{const message=document.getElementById("soundText").textContent;window.open("https://wa.me/559984646848?text="+encodeURIComponent(message),"_blank","noopener");});
+})();
 /* Atual Som Experience: Store e Connect */
 (function(){
  const connect=document.getElementById("experienceConnect");
