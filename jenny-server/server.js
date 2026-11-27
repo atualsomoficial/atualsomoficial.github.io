@@ -143,6 +143,55 @@ function answer(raw, history = []) {
     return humanContact("verificar promoções e condições especiais disponíveis");
   }
 
+  // Perguntas frequentes de atendimento e orientação básica
+  if (has(q, [/\\b(como comprar|quero comprar|fazer pedido|fechar pedido|realizar compra|encomendar)\\b/])) {
+    return "É simples! 💙 Você pode escolher o produto no catálogo e falar com a equipe da Atual Som para confirmar disponibilidade, valor e concluir a compra pelo WhatsApp: https://wa.me/559984646848. Se quiser, me diga qual produto procura e eu ajudo a localizar.";
+  }
+  if (has(q, [/\\b(voces vendem|vcs vendem|tem instrumento|instrumentos musicais|instrumentos)\\b/])) {
+    return "Sim! A Atual Som trabalha com instrumentos e equipamentos de áudio. No catálogo temos categorias como cordas, teclas, sopro, percussão, microfones, mesas e sistemas de som. Qual instrumento ou equipamento você procura?";
+  }
+  if (has(q, [/\\b(aceita pix|paga no pix|pagamento no pix|pix)\\b/])) {
+    return "Não tenho a confirmação das formas de pagamento de todos os produtos. Para confirmar se há Pix e as condições atuais, fale com a equipe pelo WhatsApp: https://wa.me/559984646848.";
+  }
+  if (has(q, [/\\b(fazem entrega|entrega para|entregam|envia para|mandam para|entrega em)\\b/])) {
+    return humanContact("confirmar se há entrega para sua cidade e calcular o frete");
+  }
+  if (has(q, [/\\b(qual a melhor caixa|melhor caixa de som|caixa de som boa|qual caixa comprar|indica uma caixa)\\b/])) {
+    return "A melhor caixa depende do uso e do ambiente. Para indicar sem exagerar ou faltar potência, preciso saber: será para voz e música, igreja, evento ou uso doméstico? O espaço é fechado ou aberto?";
+  }
+  if (has(q, [/\\b(o que e rms|o que significa rms|potencia rms|watts rms|rms)\\b/])) {
+    return "RMS é uma referência de potência contínua que ajuda a comparar a capacidade de trabalho de um equipamento de áudio. Não escolha uma caixa apenas pelo número de watts: sensibilidade, qualidade, cobertura e tamanho do ambiente também fazem diferença.";
+  }
+  if (has(q, [/\\b(o que e uma mesa de som|para que serve mesa de som|mesa de som serve para que)\\b/])) {
+    return "A mesa de som reúne e controla o áudio de microfones, instrumentos e outras fontes. Nela você ajusta volumes, equalização e, conforme o modelo, efeitos e saídas diferentes. A quantidade de canais deve acompanhar tudo o que será conectado.";
+  }
+  if (has(q, [/\\b(o que e caixa ativa|caixa ativa significa|caixa amplificada)\\b/])) {
+    return "Uma caixa ativa, também chamada de amplificada, já possui amplificador interno. Em geral, basta enviar o sinal de áudio e fornecer energia elétrica, respeitando as conexões e orientações do fabricante.";
+  }
+  if (has(q, [/\\b(o que e caixa passiva|caixa passiva significa)\\b/])) {
+    return "Uma caixa passiva não possui amplificador interno: ela precisa ser ligada a um amplificador compatível. É importante conferir impedância e potência para combinar os equipamentos corretamente.";
+  }
+  if (has(q, [/\\b(qual diferenca entre caixa ativa e passiva|diferenca caixa ativa passiva|ativa ou passiva)\\b/])) {
+    return "A caixa ativa já tem amplificador integrado; a passiva precisa de um amplificador externo. A ativa costuma simplificar a montagem. A passiva pode fazer sentido em sistemas com amplificação centralizada. A escolha depende do projeto e dos equipamentos que você já possui.";
+  }
+  if (has(q, [/\\b(o que e subwoofer|para que serve subwoofer|subwoofer serve para que)\\b/])) {
+    return "O subwoofer reproduz principalmente as frequências graves e complementa as caixas principais. Ele não substitui as caixas de voz: precisa ser combinado com o restante do sistema e ajustado ao ambiente.";
+  }
+  if (has(q, [/\\b(qual microfone comprar|melhor microfone|indica um microfone|microfone para voz)\\b/])) {
+    return "Para voz ao vivo, microfones dinâmicos são muito usados pela praticidade e resistência. Para gravação, um condensador pode ser interessante, dependendo do ambiente. Você vai usar em palco, igreja, reuniões ou estúdio? Prefere com fio ou sem fio?";
+  }
+  if (has(q, [/\\b(qual a diferenca entre digital e analogica|mesa digital ou analogica|mesa analogica ou digital)\\b/])) {
+    return "Mesas analógicas costumam ter controles diretos e operação simples. Mesas digitais reúnem recursos como processamento, cenas e roteamento avançado, variando conforme o modelo. A melhor escolha depende da quantidade de canais, recursos necessários e familiaridade de quem vai operar.";
+  }
+  if (has(q, [/\\b(o que preciso para montar um som|montar um sistema de som|equipamentos para montar um som|como montar um som)\\b/])) {
+    return "Um sistema básico pode envolver fonte de áudio, mesa ou controlador quando necessário, caixas compatíveis, microfones e cabos. A lista muda conforme o uso. É para igreja, evento, comércio, estúdio ou casa?";
+  }
+  if (has(q, [/\\b(qual a melhor marca|melhor marca de caixa|melhor marca de mesa|marca mais confiavel)\\b/])) {
+    return "Não existe uma única melhor marca para todos os casos. É importante comparar modelo, potência real, cobertura, entradas, garantia, assistência e orçamento. Se me disser o tipo de equipamento e o uso, ajudo a definir o que avaliar.";
+  }
+  if (has(q, [/\\b(voces fazem projeto|faz projeto de som|projeto de sonorizacao|orcamento de som|montar projeto)\\b/])) {
+    return "Podemos iniciar uma orientação de sonorização. Para isso, precisamos entender o ambiente, as medidas, o público e o tipo de uso. Você pode acessar a área Projects no site ou falar com a equipe pelo WhatsApp: https://wa.me/559984646848.";
+  }
   // Orientação por necessidade
   if (has(q, [/\b(quero|preciso|montar|comprar|fazer)\b.*\b(som|sonorizacao|sistema de som)\b/, /^som$/, /^quero um som$/])) {
     return "Claro! 💙 Vamos encontrar um sistema de som adequado. Você precisa dele para igreja, eventos, comércio ou uso em casa?";
