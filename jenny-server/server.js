@@ -43,6 +43,86 @@ const products = [
 
 const categories = [...new Set(products.map((p) => p.category))];
 
+
+/*
+ * Motor de linguagem da Jenny.
+ * Configure no Render:
+ * AI_API_URL = endpoint OpenAI-compatible completo, terminando em /chat/completions
+ * AI_API_KEY = chave privada do provedor
+ * AI_MODEL = identificador do modelo
+ */
+const AI_API_URL = process.env.AI_API_URL || "";
+const AI_API_KEY = process.env.AI_API_KEY || "";
+const AI_MODEL = process.env.AI_MODEL || "";
+
+function buildJennySystemPrompt() {
+  const catalog = products.map((p) => {
+    let item = p.name + " | categoria: " + p.category + " | " + p.description;
+    if (p.price) item += " | preços cadastrados: " + p.price.cash + "; " + p.price.boleto + "; " + p.price.card;
+    return item;
+  }).join("\\n");
+
+  return [
+    "Você é Jenny, assistente virtual da Atual Som, uma loja brasileira de instrumentos musicais e equipamentos profissionais de áudio.",
+    "Converse em português brasileiro, com naturalidade, simpatia, clareza e respostas objetivas. Use 💙 ocasionalmente, sem exagerar.",
+    "Você é uma IA conversacional: entenda a intenção e o contexto, não dependa de palavras exatas. Frases diferentes com o mesmo significado devem receber o mesmo tipo de ajuda.",
+    "Responda também a perguntas gerais, cumprimentos, dúvidas, explicações e conversas naturais. Não force todo assunto para uma venda. Se a pergunta for sobre a loja, conecte a resposta ao atendimento da Atual Som.",
+    "Mantenha o contexto das mensagens anteriores. Interprete respostas curtas como 'sim', 'não', 'esse', 'a média' e '50 pessoas' em relação à pergunta imediatamente anterior. Não reinicie a conversa sem motivo.",
+    "Sobre a Atual Som, use apenas os dados fornecidos neste prompt. Nunca invente preço, estoque, endereço, horário, frete, garantia, prazo, formas de pagamento ou características específicas não cadastradas.",
+    "Se não souber um dado comercial, diga com transparência e ofereça atendimento humano pelo WhatsApp https://wa.me/559984646848 ou Instagram https://www.instagram.com/atualsom/.",
+    "Ajude a entender necessidades com perguntas curtas e relevantes, uma por vez. Não faça interrogatórios nem repita perguntas já respondidas.",
+    "Ao orientar montagem de sistemas de som, primeiro entenda aplicação, ambiente, público e equipamentos existentes. Não feche dimensionamento técnico sem dados suficientes.",
+    "Não diga que consultou estoque, catálogo em tempo real ou sistemas externos. Não afirme que concluiu pedidos ou reservas.",
+    "Informações oficiais disponíveis:",
+    "Categorias: " + categories.join(", "),
+    "Catálogo cadastrado (itens de referência, não representam necessariamente estoque disponível):",
+    catalog,
+    "WhatsApp: (99) 8464-6848 — https://wa.me/559984646848",
+    "Instagram: @atualsom — https://www.instagram.com/atualsom/"
+  ].join("\\n\\n");
+}
+
+async function answerWithAI(message, history = []) {
+  if (!AI_API_URL || !AI_API_KEY || !AI_MODEL) return null;
+
+  const messages = [
+    { role: "system", content: buildJennySystemPrompt() },
+    ...history
+      .filter((item) => item && ["user", "assistant"].includes(item.role) && typeof item.content === "string")
+      .slice(-10)
+      .map((item) => ({ role: item.role, content: item.content.slice(0, 2000) })),
+    { role: "user", content: message.slice(0, 2000) }
+  ];
+
+  const response = await fetch(AI_API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + AI_API_KEY
+    },
+    body: JSON.stringify({
+      model: AI_MODEL,
+      messages,
+      temperature: 0.65,
+      max_tokens: 550
+    }),
+    signal: AbortSignal.timeout(25000)
+  });
+
+  if (!response.ok) {
+    const detail = await response.text().catch(() => "");
+    console.error("Falha no provedor de IA:", response.status, detail.slice(0, 500));
+    throw new Error("O motor de linguagem não respondeu corretamente.");
+  }
+
+  const data = await response.json();
+  const reply = data?.choices?.[0]?.message?.content;
+  if (typeof reply !== "string" || !reply.trim()) {
+    throw new Error("O provedor retornou uma resposta vazia.");
+  }
+  return reply.trim().slice(0, 5000);
+}
+
 function normalize(value) {
   return String(value || "").toLocaleLowerCase("pt-BR")
     .normalize("NFD")
@@ -300,19 +380,33 @@ app.get("/health", (_req, res) => {
   res.json({
     ok: true,
     service: "Jenny - Atual Som",
+    engine: AI_API_URL && AI_API_KEY && AI_MODEL ? "language-model" : "rules-fallback",
+    aiConfigured: Boolean(AI_API_URL && AI_API_KEY && AI_MODEL),
     message: "Servidor online."
   });
 });
 
-app.post("/api/chat", (req, res) => {
+app.post("/api/chat", async (req, res) => {
   const message = typeof req.body?.message === "string" ? req.body.message.trim() : "";
   const history = Array.isArray(req.body?.history) ? req.body.history
     .filter((item) => item && ["user", "assistant"].includes(item.role) && typeof item.content === "string")
-    .slice(-12) : [];
+    .slice(-10) : [];
   if (!message) {
     return res.status(400).json({ error: "Envie uma mensagem para a Jenny." });
   }
-  return res.json({ reply: answer(message, history) });
+
+  try {
+    const aiReply = await answerWithAI(message, history);
+    if (aiReply) return res.json({ reply: aiReply, engine: "language-model" });
+
+    // Mantém o atendimento antigo apenas enquanto as credenciais do motor de IA não forem configuradas.
+    return res.json({ reply: answer(message, history), engine: "rules-fallback" });
+  } catch (error) {
+    console.error("Erro no atendimento da Jenny:", error.message);
+    return res.status(503).json({
+      error: "Estou com uma instabilidade momentânea no atendimento inteligente. Tente novamente em instantes ou fale com nossa equipe: https://wa.me/559984646848."
+    });
+  }
 });
 
 app.use((err, _req, res, _next) => {
