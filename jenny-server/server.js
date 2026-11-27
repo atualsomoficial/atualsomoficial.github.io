@@ -71,8 +71,8 @@ function answer(raw, history = []) {
 
   // Continuidade: interpreta respostas curtas usando o assunto imediatamente anterior.
   // Resposta sobre porte e público após a Jenny perguntar sobre a igreja.
-  if (/igreja|culto|templo|louvor/.test(lastAssistantText) && /\b(media|medio|grande|pequena|pequeno)\b/.test(q) && /\\d+\\s*pessoas?/.test(q)) {
-    const publico = q.match(/\\d+\\s*pessoas?/);
+  if (/igreja|culto|templo|louvor/.test(lastAssistantText) && /\b(media|medio|grande|pequena|pequeno)\b/.test(q) && /\d+\s*pessoas?/.test(q)) {
+    const publico = q.match(/\d+\s*pessoas?/);
     return "Entendi! Uma igreja de porte " + (q.includes("media") || q.includes("medio") ? "médio" : q.includes("pequena") || q.includes("pequeno") ? "pequeno" : "grande") + ", com cerca de " + (publico ? publico[0] : "50 pessoas") + ". 💙 O espaço é fechado ou aberto? E vocês usam banda com instrumentos ou principalmente voz?";
   }
   if (shortReply && lastAssistantText) {
