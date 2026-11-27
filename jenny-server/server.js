@@ -147,6 +147,26 @@ function answer(raw, history = []) {
     return humanContact("verificar promoções e condições especiais disponíveis");
   }
 
+  // Intenção: montar, instalar ou planejar um sistema de som.
+  // Diferentes formulações da mesma necessidade seguem o mesmo atendimento.
+  const soundSystemIntent = has(q, [
+    /\\b(montar|montagem|construir|construcao|instalar|instalacao|projetar|planejar|criar|fazer|desenvolver|preciso de|quero|estou procurando)\\b.*\\b(som|sonorizacao|sistema de audio|sistema de som|equipamento de audio|equipamentos de audio|audio)\\b/,
+    /\\b(som|sonorizacao|sistema de audio|sistema de som)\\b.*\\b(igreja|culto|evento|auditorio|comercio|casa|ambiente)\\b/,
+    /\\b(quero um som|preciso de um som|preciso sonorizar|fazer a sonorizacao|montar o audio)\\b/
+  ]);
+  if (soundSystemIntent) {
+    if (/\\b(igreja|culto|templo|louvor|ministerio)\\b/.test(q)) {
+      return "Claro! 💙 Vamos planejar a sonorização da igreja. Para começar, quantas pessoas o espaço costuma receber? Se souber, diga também se o ambiente é pequeno, médio ou grande.";
+    }
+    if (/\\b(evento|festa|show|palestra|auditorio|ar livre|area aberta)\\b/.test(q)) {
+      return "Vamos pensar em um sistema adequado para esse evento! 💙 Qual é o público estimado e o local será aberto ou fechado?";
+    }
+    if (/\\b(estudio|gravacao|podcast|home studio)\\b/.test(q)) {
+      return "Perfeito! 💙 Para montar esse sistema, você pretende captar voz, instrumentos ou os dois?";
+    }
+    return "Claro! 💙 Posso ajudar a planejar o sistema de som. Onde você pretende usar: igreja, eventos, comércio ou em casa?";
+  }
+
   // Perguntas frequentes de atendimento e orientação básica
   if (has(q, [/\b(como comprar|quero comprar|fazer pedido|fechar pedido|realizar compra|encomendar)\b/])) {
     return "É simples! 💙 Você pode escolher o produto no catálogo e falar com a equipe da Atual Som para confirmar disponibilidade, valor e concluir a compra pelo WhatsApp: https://wa.me/559984646848. Se quiser, me diga qual produto procura e eu ajudo a localizar.";
